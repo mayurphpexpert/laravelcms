@@ -109,15 +109,16 @@
       			</ul>      			
       		</div>   
 			<div class="right-nav py-0">
-				<a href="{{ route('front.cart')}}" class="ml-3 d-flex pt-2">
-					<i class="fas fa-shopping-cart text-primary"></i>
-					@php
-						$cartCount = Cart::count();
-					@endphp
-					@if($cartCount > 0)
-						<span class="badge badge-pill badge-danger">{{ $cartCount }}</span>
-					@endif					
-				</a>
+			<a href="{{ route('front.cart')}}" class="ml-3 d-flex pt-2">
+				<i class="fas fa-shopping-cart text-primary"></i>
+				@php
+					$cartItems = Cart::content();
+					$uniqueItemCount = $cartItems->unique('id')->count();
+				@endphp
+				@if($uniqueItemCount > 0)
+					<span class="badge badge-pill badge-danger">{{ $uniqueItemCount }}</span>
+				@endif
+			</a>
 			</div> 		
       	</nav>
   	</div>

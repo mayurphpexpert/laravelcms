@@ -63,11 +63,14 @@ class AuthController extends Controller
 
             if(Auth::attempt(['email' => $request->email, 'password' => $request->password],$request->get('remember'))){
 
-                // if (session()->has('url.intended')){
-                //     return redirect(session()->get('url.intended'));
-                // }
+                // Get the intended URL or default to 'account.profile'
+            $intendedUrl = session()->has('url.intended') ? session()->get('url.intended') : route('account.profile');
 
-                return redirect()->route('account.profile');
+            // Clear the 'url.intended' session
+            session()->forget('url.intended');
+
+            // Redirect to the intended URL
+            return redirect()->to($intendedUrl);
 
             }else{
                 // session()->flash('error','either email/password is incorrect.');

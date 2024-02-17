@@ -56,12 +56,12 @@
                         <p>Orders</p>
                     </a>
                 </li> -->
-                <!-- <li class="nav-item">
-                    <a href="discount.html" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('coupons.create') }}" class="nav-link">
                         <i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
                         <p>Discount</p>
                     </a>
-                </li> -->
+                </li>
                 <!-- <li class="nav-item">
                     <a href="users.html" class="nav-link">
                         <i class="nav-icon  fas fa-users"></i>
