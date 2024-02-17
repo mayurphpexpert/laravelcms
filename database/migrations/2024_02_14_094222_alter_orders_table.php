@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('orders',function(Blueprint $table){
             $table->enum('payment_status',['paid','not paid'])->after('grand_total')->default('not paid');
             $table->enum('status',['pending','shipped', 'delivered'])->after('payment_status')->default('pending');
+           
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('orders',function(Blueprint $table){
             $table->dropColumn('payment_status');
             $table->dropColumn('status');
+            
         });
     }
 };

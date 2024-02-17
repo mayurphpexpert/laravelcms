@@ -42,11 +42,13 @@ Route::get('/product/{slug}',[ShopController::class,'product'])->name('front.pro
 Route::get('/cart',[CartController::class,'cart'])->name('front.cart');
 Route::post('/add-to-cart',[CartController::class,'addToCart'])->name('front.addToCart');
 Route::post('/update-cart',[CartController::class,'updateCart'])->name('front.updateCart');
-Route::post('/delete-cart',[CartController::class,'deleteItem'])->name('front.deleteItem');
+Route::post('/delete-item',[CartController::class,'deleteItem'])->name('front.deleteItem');
 Route::get('/checkout',[CartController::class,'checkout'])->name('front.checkout');
 Route::post('/processCheckout',[CartController::class,'processCheckout'])->name('front.processCheckout');
 Route::get('/thanks/{orderId}',[CartController::class,'thankyou'])->name('front.thankyou');
 Route::post('/get-order-summery',[CartController::class,'getOrderSummery'])->name('front.getOrderSummery');
+Route::post('/apply-discount',[CartController::class,'applyDiscount'])->name('front.applyDiscount');
+Route::post('/remove-discount',[CartController::class,'removeCoupon'])->name('front.removeCoupon');
 
 
 Route::group(['prefix' => 'account'],function(){
@@ -154,6 +156,12 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/coupons',[DiscountCodeController::class, 'index'])->name('coupons.index');
         Route::get('/coupons/create',[DiscountCodeController::class, 'create'])->name('coupons.create');
         Route::post('/coupons',[DiscountCodeController::class, 'store'])->name('coupons.store');
+        Route::get('/coupons/{coupon}/edit',[DiscountCodeController::class,'edit'])->name('coupons.edit');
+        Route::put('/coupons/{coupon}/',[DiscountCodeController::class,'update'])->name('coupons.update');
+        Route::delete('/coupons/{coupon}/',[DiscountCodeController::class,'destroy'])->name('coupons.delete');
+        Route::post('/coupons/bulkDelete', [DiscountCodeController::class, 'bulkDelete'])->name('coupons.bulkDelete');
+        Route::post('/coupons/bulkPublish', [DiscountCodeController::class, 'bulkPublish'])->name('coupons.bulkPublish');
+        Route::post('/coupons/bulkUnpublish', [DiscountCodeController::class, 'bulkUnpublish'])->name('coupons.bulkUnpublish');
         
 
         //temp-images.create
