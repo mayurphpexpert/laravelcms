@@ -180,9 +180,13 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/users',[UserController::class, 'index'])->name('users.index');
         Route::get('users/create',[UserController::class, 'create'])->name('users.create');
         Route::post('/users',[UserController::class, 'store'])->name('users.store');
-        // Route::get('/brands/{brand}/edit',[UserController::class,'edit'])->name('brands.edit');
-        // Route::put('/brands/{brand}/',[UserController::class,'update'])->name('brands.update');
-        // Route::delete('/brands/{brand}/',[UserController::class,'destroy'])->name('brands.delete');       
+        Route::get('/users/{user}/edit',[UserController::class,'edit'])->name('users.edit');
+        Route::put('/users/{user}/',[UserController::class,'update'])->name('users.update');
+        Route::delete('/users/{user}/',[UserController::class,'destroy'])->name('users.delete');  
+        Route::post('/users/bulkDelete', [UserController::class, 'bulkDelete'])->name('users.bulkDelete');
+        Route::post('/users/bulkPublish', [UserController::class, 'bulkPublish'])->name('users.bulkPublish');
+        Route::post('/users/bulkUnpublish', [UserController::class, 'bulkUnpublish'])->name('users.bulkUnpublish');
+     
 
         //temp-images.create
         Route::post('/upload-temp-image',[tempImagesController::class,'create'])->name('temp-images.create');
