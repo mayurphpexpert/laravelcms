@@ -253,8 +253,8 @@ class CartController extends Controller
 
         if ($request->payment_method == 'cod'){
 
-            $discountCodeId = '';
-            $promoCode = '';
+            $discountCodeId = null;
+            $promoCode = null;
 
             $shipping = 0;
             $discount = 0;
@@ -324,17 +324,44 @@ class CartController extends Controller
             $order->country_id = $request->country;
             $order->save();
 
+            $orderID = $order->id;
+
             //store order items in order_items table
             foreach (Cart::content() as $item) {
-                $orderItem = new OrderItems();
-                $orderItem->product_id = $item->id;
-                $orderItem->order_id = $order->id;
-                $orderItem->name = $item->name;
-                $orderItem->qty = $item->qty;
-                $orderItem->price = $item->price;
-                $orderItem->total = $item->price*$item->qty;
-                $orderItem->save();
+                // $orderItem = new OrderItems();
+                // $orderItem->product_id = $item->id;
+                // $orderItem->order_id = $orderID;
+                // $orderItem->name = $item->name;
+                // $orderItem->qty = $item->qty;
+                // $orderItem->price = $item->price;
+                // $orderItem->total = $item->price*$item->qty;
+                // $orderItem->save();
+                $product = Product::find($item->id);
+
+                if ($product) {
+                    $orderItem = new OrderItems();
+                    $orderItem->product_id = $product->id;
+                    $orderItem->order_id = $orderID; // Use the retrieved order ID
+                    $orderItem->name = $item->name;
+                    $orderItem->qty = $item->qty;
+                    $orderItem->price = $item->price;
+                    $orderItem->total = $item->price * $item->qty;
+                    $orderItem->save();
+                }
+
+                //update product stock
+                $productData = Product::find($item->id);
+                if($productData->track_qty == 'Yes'){
+                    $currentQty = $productData->qty;
+                    $updatedQty = $currentQty-$item->qty;
+                    $productData->qty = $updatedQty;
+                    $productData->save();
+                }
             }
+
+            //send order email
+
+            orderEmail($order->id,'customer');
 
             session()->flash('success','you have successfully placed your order.');
 
@@ -371,7 +398,7 @@ class CartController extends Controller
             }else{
                 $discount = $code->discount_amount;
             }
-            $discountString = '<div class="mt-4" id="discount-response"> 
+            $discountString = '<div class=" mt-4" id="discount-response"> 
                 <strong>'.session()->get('code')->code.'</strong> 
                 <a href="" class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>                    
             </div>';
@@ -466,6 +493,37 @@ class CartController extends Controller
             }
         }
 
+        //max uses check
+        if($code->max_uses > 0){
+            $couponUsed = Order::where('coupon_code_id',$code->id)->count();
+
+            if($couponUsed >= $code->max_uses){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid discount coupon',
+                ]);
+            }
+        }
+        //max uses user check
+        // $couponUsed = Order::where('coupon_code_id',$code->id)->count();
+
+        // if($couponUsed >= $code->max_uses){
+        //     return response()->json([
+        //         'status' => false,
+        //         'message' => 'Invalid discount coupon',
+        //     ]);
+        // }
+
+        $subTotal = Cart::subtotal(2,'.','');
+        if($code->min_amount > 0){
+            if($subTotal < $code->min_amount){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'your min amount is must be $'.$code->min_amount.'.',
+                ]);
+            }
+        }
+        
         session()->put('code',$code);
 
         return $this->getOrderSummery($request);

@@ -50,24 +50,24 @@
                         <p>Shipping</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="orders.html" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('orders.index') }}" class="nav-link">
                         <i class="nav-icon fas fa-shopping-bag"></i>
                         <p>Orders</p>
                     </a>
-                </li> -->
+                </li>
                 <li class="nav-item">
                     <a href="{{ route('coupons.index') }}" class="nav-link">
                         <i class="nav-icon  fa fa-percent" aria-hidden="true"></i>
                         <p>Discount</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="users.html" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('users.index') }}" class="nav-link">
                         <i class="nav-icon  fas fa-users"></i>
                         <p>Users</p>
                     </a>
-                </li> -->
+                </li>
                 <!-- <li class="nav-item">
                     <a href="pages.html" class="nav-link">
                         <i class="nav-icon  far fa-file-alt"></i>

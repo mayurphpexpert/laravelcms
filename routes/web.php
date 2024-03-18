@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\BrandsController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\ProductSubCategoryController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SubCategoryController;
 use App\Http\Controllers\Admin\tempImagesController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\FrontController;
@@ -31,8 +33,8 @@ use Maatwebsite\Excel\Row;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
+// Route::get('/test', function () {
+//     orderEmail(25);
 // });
 
 
@@ -49,6 +51,7 @@ Route::get('/thanks/{orderId}',[CartController::class,'thankyou'])->name('front.
 Route::post('/get-order-summery',[CartController::class,'getOrderSummery'])->name('front.getOrderSummery');
 Route::post('/apply-discount',[CartController::class,'applyDiscount'])->name('front.applyDiscount');
 Route::post('/remove-discount',[CartController::class,'removeCoupon'])->name('front.removeCoupon');
+Route::post('/add-to-wishlist',[FrontController::class,'addToWishlist'])->name('front.addToWishlist');
 
 
 Route::group(['prefix' => 'account'],function(){
@@ -62,7 +65,11 @@ Route::group(['prefix' => 'account'],function(){
     
     Route::group(['middleware' => 'auth'],function(){
         Route::get('/profile',[AuthController::class,'profile'])->name('account.profile');
+        Route::post('/update-profile',[AuthController::class,'updateProfile'])->name('account.updateProfile');
+        Route::post('/update-address',[AuthController::class,'updateAddress'])->name('account.updateAddress');
         Route::get('/my-orders',[AuthController::class,'orders'])->name('account.orders');
+        Route::get('/my-wishlist',[AuthController::class,'wishlist'])->name('account.wishlist');
+        Route::post('/remove-product-from-wishlist',[AuthController::class,'removeProductFromWishList'])->name('account.removeProductFromWishList');
         Route::get('/order-detail/{orderId}',[AuthController::class,'orderDetail'])->name('account.orderDetail');
         Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
         
@@ -163,6 +170,19 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/coupons/bulkPublish', [DiscountCodeController::class, 'bulkPublish'])->name('coupons.bulkPublish');
         Route::post('/coupons/bulkUnpublish', [DiscountCodeController::class, 'bulkUnpublish'])->name('coupons.bulkUnpublish');
         
+        //order routes
+        Route::get('/orders',[OrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{id}',[OrderController::class, 'detail'])->name('orders.detail');
+        Route::post('/order/change-status/{id}',[OrderController::class, 'changeOrderStatus'])->name('orders.changeOrderStatus');        
+        Route::post('/order/send-email/{id}',[OrderController::class, 'sendInvoiceEmail'])->name('orders.sendInvoiceEmail');
+
+        //users routes
+        Route::get('/users',[UserController::class, 'index'])->name('users.index');
+        Route::get('users/create',[UserController::class, 'create'])->name('users.create');
+        Route::post('/users',[UserController::class, 'store'])->name('users.store');
+        // Route::get('/brands/{brand}/edit',[UserController::class,'edit'])->name('brands.edit');
+        // Route::put('/brands/{brand}/',[UserController::class,'update'])->name('brands.update');
+        // Route::delete('/brands/{brand}/',[UserController::class,'destroy'])->name('brands.delete');       
 
         //temp-images.create
         Route::post('/upload-temp-image',[tempImagesController::class,'create'])->name('temp-images.create');
