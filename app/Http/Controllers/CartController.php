@@ -179,7 +179,17 @@ class CartController extends Controller
                 $totalQty += $item->qty;
             }
 
-            $totalShippingCharge = $totalQty*$shippingInfo->amount;
+            // $totalShippingCharge = $totalQty*$shippingInfo->amount;\
+            if ($shippingInfo) {
+                $totalShippingCharge = $totalQty * $shippingInfo->amount;
+            } else {
+                $defaultShippingInfo = ShippingCharges::find(2); // Assuming the "rest_of_world" entry has an ID of 2
+                if ($defaultShippingInfo) {
+                    $totalShippingCharge = $totalQty * $defaultShippingInfo->amount;
+                } else {
+                    // Handle the case when the default shipping charge is not found
+                }
+            }
             // if ($shippingInfo) {
             //     $totalShippingCharge = $totalQty * $shippingInfo->amount;
             // } else {

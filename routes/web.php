@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
 use App\Http\Controllers\Admin\ProductSubCategoryController;
@@ -52,6 +53,15 @@ Route::post('/get-order-summery',[CartController::class,'getOrderSummery'])->nam
 Route::post('/apply-discount',[CartController::class,'applyDiscount'])->name('front.applyDiscount');
 Route::post('/remove-discount',[CartController::class,'removeCoupon'])->name('front.removeCoupon');
 Route::post('/add-to-wishlist',[FrontController::class,'addToWishlist'])->name('front.addToWishlist');
+Route::get('/page/{slug}',[FrontController::class,'page'])->name('front.page');
+Route::post('/send-contact-email',[FrontController::class,'sendContactEmail'])->name('front.sendContactEmail');
+
+Route::get('/forgot-password',[AuthController::class,'forgotPassword'])->name('front.forgotPassword');
+Route::post('/process-forgot-password',[AuthController::class,'processForgotPassword'])->name('front.processForgotPassword');
+Route::get('/reset-password/{token}',[AuthController::class,'resetPassword'])->name('front.resetPassword');
+Route::post('/process-reset-password',[AuthController::class,'processResetPassword'])->name('front.processResetPassword');
+
+Route::post('/save-rating/{productId}',[ShopController::class,'saveRating'])->name('front.saveRating');
 
 
 Route::group(['prefix' => 'account'],function(){
@@ -67,6 +77,10 @@ Route::group(['prefix' => 'account'],function(){
         Route::get('/profile',[AuthController::class,'profile'])->name('account.profile');
         Route::post('/update-profile',[AuthController::class,'updateProfile'])->name('account.updateProfile');
         Route::post('/update-address',[AuthController::class,'updateAddress'])->name('account.updateAddress');
+        Route::get('/change-password',[AuthController::class,'showChangePasswordForm'])->name('account.showChangePasswordForm');
+        Route::post('/process-change-password',[AuthController::class,'changePassword'])->name('account.changePassword');
+
+
         Route::get('/my-orders',[AuthController::class,'orders'])->name('account.orders');
         Route::get('/my-wishlist',[AuthController::class,'wishlist'])->name('account.wishlist');
         Route::post('/remove-product-from-wishlist',[AuthController::class,'removeProductFromWishList'])->name('account.removeProductFromWishList');
@@ -88,6 +102,11 @@ Route::group(['prefix' => 'admin'],function(){
 
         Route::get('/login',[AdminLoginController::class,'index'])->name('admin.login');
         Route::post('/authenticate',[AdminLoginController::class,'authenticate'])->name('admin.authenticate');
+
+        Route::get('/forgot-password',[AdminLoginController::class,'forgotPassword'])->name('admin.forgotPassword');
+        Route::post('/process-forgot-password',[AdminLoginController::class,'processForgotPassword'])->name('admin.processForgotPassword');
+        Route::get('/reset-password/{token}',[AdminLoginController::class,'resetPassword'])->name('admin.resetPassword');
+        Route::post('/process-reset-password',[AdminLoginController::class,'processResetPassword'])->name('admin.processResetPassword');
         
         
     });
@@ -107,8 +126,6 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/categories/bulkDelete', [CategoryController::class, 'bulkDelete'])->name('categories.bulkDelete');
         Route::post('/categories/bulkPublish', [CategoryController::class, 'bulkPublish'])->name('categories.bulkPublish');
         Route::post('/categories/bulkUnpublish', [CategoryController::class, 'bulkUnpublish'])->name('categories.bulkUnpublish');
-
-
         
         //sub category routes
         // Route::get('/sub-categories',[SubCategoryController::class, 'index'])->name('sub-categories.index');
@@ -139,10 +156,14 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/products/bulkDelete', [ProductController::class, 'bulkDelete'])->name('products.bulkDelete');
         Route::post('/products/bulkPublish', [ProductController::class, 'bulkPublish'])->name('products.bulkPublish');
         Route::post('/products/bulkUnpublish', [ProductController::class, 'bulkUnpublish'])->name('products.bulkUnpublish');
-
-        Route::get('/get-product',[ProductController::class,'getProducts'])->name('products.getProducts');
-
         
+        Route::get('/get-product',[ProductController::class,'getProducts'])->name('products.getProducts');      
+
+        //rating 
+        Route::get('/ratings',[ProductController::class, 'productRatings'])->name('products.productRatings');
+        Route::get('/change-ratings-status',[ProductController::class, 'changeRatingStatus'])->name('products.changeRatingStatus');
+        Route::post('/products/bulkRatingPublish', [ProductController::class, 'bulkRatingPublish'])->name('products.bulkRatingPublish');
+        Route::post('/products/bulkRatingUnpublish', [ProductController::class, 'bulkRatingUnpublish'])->name('products.bulkRatingUnpublish');
         
         Route::get('/products-subcategories',[ProductSubCategoryController::class, 'index'])->name('products-subcategories.index');
         
@@ -187,6 +208,13 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/users/bulkPublish', [UserController::class, 'bulkPublish'])->name('users.bulkPublish');
         Route::post('/users/bulkUnpublish', [UserController::class, 'bulkUnpublish'])->name('users.bulkUnpublish');
      
+        //pages routes
+        Route::get('/pages',[PageController::class, 'index'])->name('pages.index');
+        Route::get('pages/create',[PageController::class, 'create'])->name('pages.create');
+        Route::post('/pages',[PageController::class, 'store'])->name('pages.store');
+        Route::get('/pages/{page}/edit',[PageController::class,'edit'])->name('pages.edit');
+        Route::put('/pages/{page}/',[PageController::class,'update'])->name('pages.update');
+        Route::delete('/pages/{page}/',[PageController::class,'destroy'])->name('pages.delete');
 
         //temp-images.create
         Route::post('/upload-temp-image',[tempImagesController::class,'create'])->name('temp-images.create');

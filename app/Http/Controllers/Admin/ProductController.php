@@ -8,6 +8,7 @@ use App\Models\Brands;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Models\ProductRating;
 use App\Models\SubCategories;
 use App\Models\TempImage;
 use Illuminate\Http\Request;
@@ -341,6 +342,95 @@ class ProductController extends Controller
             'tags' => $tempProduct,
             'status' => true
         ]);
+    }
+
+    public function productRatings(Request $request){
+        $ratings = ProductRating::select('product_ratings.*','products.title as productTitle');
+        // ->orderBy('product_ratings.created_at','DESC')
+        $ratings = $ratings->leftJoin('products','products.id','product_ratings.product_id');
+        // $ratings = $ratings->paginate(10);
+
+        // Sorting by ID
+        if ($request->has('sort') && $request->sort == 'id') {
+            $order = $request->has('order') && in_array($request->order, ['asc', 'desc']) ? $request->order : 'asc';
+            $ratings->orderBy('id', $order);
+        } else {
+            $ratings->latest()->orderBy('id','DESC'); // Default sorting if not specified
+        }
+        
+        if ($request->get('keyword') != ""){
+            $ratings = $ratings->orWhere('products.title','like','%'.$request->keyword.'%');
+            $ratings = $ratings->orWhere('product_ratings.username','like','%'.$request->keyword.'%');
+            $ratings = $ratings->orWhere('comment','like','%'.$request->keyword.'%');
+        }
+
+        $perPage = $request->input('per_page', session('perPage', 10));
+        $ratings = $ratings->paginate($perPage);
+
+        // Store selected perPage value in session
+        session(['perPage' => $perPage]);
+
+        return view('admin.products.ratings',[
+            'ratings' => $ratings,
+        ]);
+    }
+
+    public function changeRatingStatus(Request $request){
+
+        $productRating = ProductRating::find($request->id);
+        $productRating->status = $request->status;
+        $productRating->save();
+
+        session()->flash('success','Status changed successfully.');
+
+        return response()->json([
+            'status' => true,
+        ]);
+
+    }
+
+    public function bulkRatingPublish(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if (!empty($ids)) {
+            // Update the status of selected categories to 1 (Publish)
+            DB::table('product_ratings')->whereIn('id', $ids)->update(['status' => 1]);
+
+            $request->session()->flash('success', 'Status changed successfully.');
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Status changed successfully.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Review selected for publishing'
+            ]);
+        }
+    }
+
+    public function bulkRatingUnpublish(Request $request)
+    {
+        $ids = $request->input('ids');
+
+        if (!empty($ids)) {
+            // Update the status of selected categories to 0 (Unpublish)
+            DB::table('product_ratings')->whereIn('id', $ids)->update(['status' => 0]);
+
+            $request->session()->flash('success', 'Status changed successfully.');
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Status changed successfully.'
+            ]);
+        } else {
+            return response()->json([
+                'status' => false,
+                'message' => 'No Review selected for change status'
+            ]);
+        }
     }
 
 

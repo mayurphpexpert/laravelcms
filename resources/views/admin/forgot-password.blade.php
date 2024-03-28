@@ -21,11 +21,11 @@
 					<a href="#" class="h3">Admin Panel</a>
 			  	</div>
 			  	<div class="card-body">
-					<p class="login-box-msg">Sign in to start your session</p>
-					<form action="{{ route('admin.authenticate') }}" method="post">
+					<p class="login-box-msg">Forgot Password</p>
+					<form action="{{ route('admin.processForgotPassword') }}" method="post">
                         @csrf
 				  		<div class="input-group mb-3">
-							<input type="email" name="email" id="email" @if (isset($_COOKIE["email"]))  value="{{ $_COOKIE["email"] }}" @endif class="form-control @error('email') is-invalid @enderror" placeholder="Email">
+							<input type="email" name="email" id="email" value="{{ old('email') }}"  class="form-control @error('email') is-invalid @enderror" placeholder="Email">
 							<div class="input-group-append">
 					  			<div class="input-group-text">
 									<span class="fas fa-envelope"></span>
@@ -35,35 +35,16 @@
                                 <p class="invalid-feedback">{{$message}}</p>                                
                             @enderror
 				  		</div>
-				  		<div class="input-group mb-3">
-							<input type="password" name="password" id="password" @if (isset($_COOKIE["password"]))  value="{{ $_COOKIE["password"] }}" @endif class="form-control @error('password') is-invalid @enderror" placeholder="Password">
-							<div class="input-group-append">
-					  			<div class="input-group-text">
-									<span class="fas fa-lock"></span>
-					  			</div>
-							</div>
-                            @error('password')
-                                <p class="invalid-feedback">{{$message}}</p>                                
-                            @enderror
-				  		</div>
-				  		<div class="row">
-							<div class="col-8">
-					  			<div class="icheck-primary">
-									<input type="checkbox" id="remember" name="remember">
-									<label for="remember">
-						  				Remember Me
-									</label>
-					  			</div>
-							</div>
+                        <div class="row">
 							<!-- /.col -->
 							<div class="col-4">
-					  			<button type="submit" class="btn btn-primary btn-block">Login</button>
+					  			<button type="submit" class="btn btn-primary btn-block">Submit</button>
 							</div>
 							<!-- /.col -->
 				  		</div>
 					</form>
-		  			<p class="mb-1 mt-3">
-				  		<a href="{{ route('admin.forgotPassword') }}">I forgot my password</a>
+		  			<p class="mb-1 mt-3 text-right">
+				  		<a href="{{ route('admin.login') }}">login Here!</a>
 					</p>					
 			  	</div>
 			  	<!-- /.card-body -->

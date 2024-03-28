@@ -68,12 +68,18 @@
                         <p>Users</p>
                     </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a href="pages.html" class="nav-link">
+                <li class="nav-item">
+                    <a href="{{ route('pages.index') }}" class="nav-link">
                         <i class="nav-icon  far fa-file-alt"></i>
                         <p>Pages</p>
                     </a>
-                </li> -->
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('products.productRatings') }}" class="nav-link">
+                        <i class="nav-icon fas fa-star"></i>
+                        <p>Reviews</p>
+                    </a>
+                </li>
             </ul>
         </nav>
         <!-- /.sidebar-menu -->
