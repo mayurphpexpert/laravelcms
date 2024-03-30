@@ -46,12 +46,49 @@
                                 </select>
                             </div>
                         </div> -->
-                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name">Meta Title</label>
+                                <input type="text" value="{{ $page->meta_title }}" name="meta_title" id="meta_title" class="form-control" placeholder="Meta Title">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name">Meta Canonical Url</label>
+                                <input type="text" value="{{ $page->meta_canonical_url }}" name="meta_canonical_url" id="meta_canonical_url" class="form-control" placeholder="Meta Canonical Url">
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="description">Meta Description</label>
+                                <textarea name="meta_description" id="meta_description" class="form-control" placeholder=" Meta Description">{{ $page->meta_description }}</textarea>
+                                <p></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="description">Meta Keyword</label>
+                                <textarea name="meta_keyword" id="meta_keyword" class="form-control" placeholder=" Meta Keyword">{{ $page->meta_keyword }}</textarea>
+                                <p></p>
+                            </div>
+                        </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="content">Content</label>
                                 <textarea name="content" id="content" class="summernotecat" placeholder="Content">{!! $page->content !!}</textarea>
                                 <p></p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="status">Status</label>
+                                <select name="status" id="status" class="form-control">
+                                    <option {{ ($page->status == 1) ? 'selected' : '' }} value="1">Active</option>
+                                    <option {{ ($page->status == 0) ? 'selected' : '' }} value="0">Inactive</option>
+                                </select>
                             </div>
                         </div>
                     </div>

@@ -12,4 +12,9 @@ class Order extends Model
     public function items(){
         return $this->hasMany(OrderItems::class);
     }
+
+    public function orderStatus()
+    {
+        return $this->belongsTo(OrderStatus::class);
+    }
 }

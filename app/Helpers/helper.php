@@ -47,7 +47,7 @@ function getCountryInfo($id){
 }
 
 function staticPages(){
-    $pages = page::orderBy('name','ASC')->get();
+    $pages = page::orderBy('name','ASC')->where('status',1)->get();
     return $pages;
 }
 

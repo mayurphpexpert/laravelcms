@@ -6,10 +6,10 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Page</h1>
+                <h1>Create Order Status</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="{{ route('pages.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('orderStatus.index') }}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -19,7 +19,7 @@
 <section class="content">
     <!-- Default box -->
     <div class="container-fluid">
-        <form action="" method="post" id="pageForm" name="pageForm">
+        <form action="" id="createOrderStatusForm" name="createOrderStatusForm" method="post">
             <div class="card">
                 <div class="card-body">
                     <div class="row">
@@ -33,51 +33,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="slug">Slug</label>
-                                <input type="text"  name="slug" id="slug" class="form-control" placeholder="Slug">
-                                <p></p>
-                            </div>
-                        </div>
-                        <!-- <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="status">Status</label>
-                                <select name="status" id="status" class="form-control">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
-                                </select>
-                            </div>
-                        </div> -->
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="name">Meta Title</label>
-                                <input type="text" name="meta_title" id="meta_title" class="form-control" placeholder="Meta Title">
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="name">Meta Canonical Url</label>
-                                <input type="text" name="meta_canonical_url" id="meta_canonical_url" class="form-control" placeholder="Meta Canonical Url">
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="description">Meta Description</label>
-                                <textarea name="meta_description" id="meta_description" class="form-control" placeholder=" Meta Description"></textarea>
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="description">Meta Keyword</label>
-                                <textarea name="meta_keyword" id="meta_keyword" class="form-control" placeholder=" Meta Keyword"></textarea>
-                                <p></p>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label for="content">Content</label>
-                                <textarea name="content" id="content" class="summernotecat" placeholder="Content"></textarea>
+                                <input type="text" name="slug" id="slug" class="form-control" placeholder="Slug" readonly>
                                 <p></p>
                             </div>
                         </div>
@@ -93,11 +49,12 @@
                     </div>
                 </div>
             </div>
-            <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('pages.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
-            </div>
-        </form>
+    </div>
+    <div class="pb-5 pt-3">
+        <button type="submit" class="btn btn-primary">Create</button>
+        <a href="{{ route('orderStatus.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+    </div>
+    </form>
     </div>
     <!-- /.card -->
 </section>
@@ -106,12 +63,12 @@
 
 @section('customJs')
 <script>
-    $("#pageForm").submit(function(event) {
+    $("#createOrderStatusForm").submit(function(event) {
         event.preventDefault();
         var element = $(this);
         $("button[type=submit]").prop('disabled', true);
         $.ajax({
-            url: '{{ route("pages.store") }}',
+            url: '{{ route("orderStatus.store") }}',
             type: 'post',
             data: element.serializeArray(),
             dataType: 'json',
@@ -120,16 +77,15 @@
 
                 if (response["status"] == true) {
 
-                    
+                    window.location.href = "{{ route('orderStatus.index') }}";
+
                     $("#name").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html("");
-                    
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("");
+
                     $("#slug").removeClass('is-invalid')
-                    .siblings('p')
-                    .removeClass('invalid-feedback').html("");
-                    
-                    window.location.href = "{{ route('pages.index') }}";
+                        .siblings('p')
+                        .removeClass('invalid-feedback').html("");
 
                 } else {
                     var errors = response['errors'];
@@ -161,6 +117,8 @@
         })
     });
 
+
+
     $("#name").change(function() {
         element = $(this);
         $("button[type=submit]").prop('disabled', true);
@@ -179,11 +137,5 @@
             }
         });
     });
-
-    $('.summernotecat').summernote({
-        height: '300px'
-    });
-
 </script>
-
 @endsection

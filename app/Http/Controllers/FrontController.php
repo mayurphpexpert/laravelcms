@@ -73,7 +73,7 @@ class FrontController extends Controller
     }
 
     public function page($slug){
-        $page = page::where('slug',$slug)->first();
+        $page = page::where('slug',$slug)->where('status',1)->first();
 
         if($page == null){
             abort(404);

@@ -3,41 +3,40 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\page;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
-class PageController extends Controller
+class OrderStatusController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $pages = page::query();
-
+        $orderStatus = OrderStatus::query();
         // Sorting by ID
         if ($request->has('sort') && $request->sort == 'id') {
             $order = $request->has('order') && in_array($request->order, ['asc', 'desc']) ? $request->order : 'asc';
-            $pages->orderBy('id', $order);
+            $orderStatus->orderBy('id', $order);
         } else {
-            $pages->latest()->orderBy('id', 'DESC'); // Default sorting if not specified
+            $orderStatus->latest()->orderBy('id', 'DESC'); // Default sorting if not specified
         }
 
         if (!empty($request->get('keyword'))) {
-            $pages = $pages->where('name', 'like', '%' . $request->get('keyword') . '%');
+            $orderStatus = $orderStatus->where('name', 'like', '%' . $request->get('keyword') . '%');
         }
 
         // $categories = $categories->paginate(10);
         // $perPage = $request->get('pagination_limit', 10); // Default: 25 items per page
         // $categories = $categories->paginate($perPage);
         $perPage = $request->input('per_page', session('perPage', 10));
-        $pages = $pages->paginate($perPage);
+        $orderStatus = $orderStatus->paginate($perPage);
         // Store selected perPage value in session
         session(['perPage' => $perPage]);
 
-        return view('admin.pages.list',[
-            'pages' => $pages,
+        return view('admin.all_settings.order_status.list',[
+            'orderStatus' => $orderStatus,
         ]);
     }
 
@@ -46,7 +45,7 @@ class PageController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.create');
+        return view('admin.all_settings.order_status.create');
     }
 
     /**
@@ -66,18 +65,13 @@ class PageController extends Controller
             ]);
         }
 
-        $page = new page();
-        $page->name = $request->name;
-        $page->slug = $request->slug;
-        $page->content = $request->content;
-        $page->meta_title = $request->meta_title;
-        $page->meta_canonical_url = $request->meta_canonical_url;
-        $page->meta_description = $request->meta_description;
-        $page->meta_keyword = $request->meta_keyword;
-        $page->status = $request->status;
-        $page->save();
+        $orderstatus = new OrderStatus();
+        $orderstatus->name = $request->name;
+        $orderstatus->slug = $request->slug;
+        $orderstatus->status = $request->status;
+        $orderstatus->save();
 
-        $message = 'Page added successfully';
+        $message = 'Order Status added successfully';
 
         session()->flash('success',$message);
 
@@ -100,16 +94,16 @@ class PageController extends Controller
      */
     public function edit(string $id)
     {
-        $page = page::find($id);
+        $orderstatus = OrderStatus::find($id);
 
-        if($page == null){
-            session()->flash('error','Page not found');
+        if($orderstatus == null){
+            session()->flash('error','record not found');
 
-            return redirect()->route('pages.index');
+            return redirect()->route('orderStatus.index');
         }
 
-        return view('admin.pages.edit',[
-            'page' => $page,
+        return view('admin.all_settings.order_status.edit',[
+            'orderstatus' => $orderstatus,
         ]);
     }
 
@@ -118,11 +112,10 @@ class PageController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $orderstatus = OrderStatus::find($id);
 
-        $page = page::find($id);
-
-        if($page == null){
-            session()->flash('error','Page not found');
+        if($orderstatus == null){
+            session()->flash('error','Record not found');
 
             return response()->json([
                 'status' => true,                
@@ -140,17 +133,12 @@ class PageController extends Controller
                 'errors' => $validator->errors()
             ]);
         }
-        $page->name = $request->name;
-        $page->slug = $request->slug;
-        $page->content = $request->content;
-        $page->meta_title = $request->meta_title;
-        $page->meta_canonical_url = $request->meta_canonical_url;
-        $page->meta_description = $request->meta_description;
-        $page->meta_keyword = $request->meta_keyword;
-        $page->status = $request->status;
-        $page->save();
+        $orderstatus->name = $request->name;
+        $orderstatus->slug = $request->slug;
+        $orderstatus->status = $request->status;
+        $orderstatus->save();
 
-        $message = 'Page updated successfully';
+        $message = 'Order Status updated successfully';
 
         session()->flash('success',$message);
 
@@ -165,19 +153,19 @@ class PageController extends Controller
      */
     public function destroy(string $id)
     {
-        $page = page::find($id);
+        $orderstatus = OrderStatus::find($id);
 
-        if($page == null){
-            session()->flash('error','Page not found');
+        if($orderstatus == null){
+            session()->flash('error','Record not found');
 
             return response()->json([
                 'status' => true,                
             ]);
         }
         
-        $page->delete();
+        $orderstatus->delete();
 
-        $message = 'Page deleted successfully';
+        $message = 'Order Status successfully';
 
         session()->flash('success',$message);
 

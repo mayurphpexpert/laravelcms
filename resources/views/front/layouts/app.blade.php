@@ -165,7 +165,7 @@
 					<ul>
 						<li><a href="#" title="Sell">Login</a></li>
 						<li><a href="#" title="Advertise">Register</a></li>
-						<li><a href="#" title="Contact Us">My Orders</a></li>						
+											
 					</ul>
 				</div>
 			</div>			

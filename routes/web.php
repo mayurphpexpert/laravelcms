@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DiscountCodeController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\OrderStatusController;
 use App\Http\Controllers\Admin\PageController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
@@ -215,6 +216,14 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/pages/{page}/edit',[PageController::class,'edit'])->name('pages.edit');
         Route::put('/pages/{page}/',[PageController::class,'update'])->name('pages.update');
         Route::delete('/pages/{page}/',[PageController::class,'destroy'])->name('pages.delete');
+
+        //order status
+        Route::get('/order-status',[OrderStatusController::class, 'index'])->name('orderStatus.index');
+        Route::get('order-status/create',[OrderStatusController::class, 'create'])->name('orderStatus.create');
+        Route::post('/order-status',[OrderStatusController::class, 'store'])->name('orderStatus.store');
+        Route::get('/order-status/{order}/edit',[OrderStatusController::class,'edit'])->name('orderStatus.edit');
+        Route::put('/order-status/{order}/',[OrderStatusController::class,'update'])->name('orderStatus.update');
+        Route::delete('/order-status/{order}/',[OrderStatusController::class,'destroy'])->name('orderStatus.delete');
 
         //temp-images.create
         Route::post('/upload-temp-image',[tempImagesController::class,'create'])->name('temp-images.create');
