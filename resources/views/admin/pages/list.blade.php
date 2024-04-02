@@ -6,7 +6,7 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Pages</h1>
+                <h1>Custom Pages</h1>
             </div>
             <div class="col-sm-6 text-right">
                 <a href="{{ route('pages.create') }}" class="btn btn-primary">New Page</a>

@@ -6,10 +6,10 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Custom Page</h1>
+                <h1>Create System Page</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="{{ route('pages.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('SystemPages.index') }}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="pb-5 pt-3">
                 <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('pages.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                <a href="{{ route('SystemPages.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -111,7 +111,7 @@
         var element = $(this);
         $("button[type=submit]").prop('disabled', true);
         $.ajax({
-            url: '{{ route("pages.store") }}',
+            url: '{{ route("SystemPages.store") }}',
             type: 'post',
             data: element.serializeArray(),
             dataType: 'json',
@@ -129,7 +129,7 @@
                     .siblings('p')
                     .removeClass('invalid-feedback').html("");
                     
-                    window.location.href = "{{ route('pages.index') }}";
+                    window.location.href = "{{ route('SystemPages.index') }}";
 
                 } else {
                     var errors = response['errors'];

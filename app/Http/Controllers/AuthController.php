@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PDF;
 
 class AuthController extends Controller
 {
@@ -227,6 +228,18 @@ class AuthController extends Controller
         
         return view('front.account.order-detail',$data);
         
+    }
+
+    public function downloadInvoice($id)
+    {
+        $order = Order::find($id);
+        $orderItems = OrderItems::where('order_id', $id)->get();
+
+        // Generate PDF
+        $pdf = PDF::loadView('front.account.invoice', compact('order', 'orderItems'));
+        
+        // Download PDF
+        return $pdf->download('invoice.pdf');
     }
     
     public function wishlist(){

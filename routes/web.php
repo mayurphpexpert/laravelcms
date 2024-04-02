@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ProductSubCategoryController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\ShippingController;
 use App\Http\Controllers\Admin\SubCategoryController;
+use App\Http\Controllers\Admin\SystemPageController;
 use App\Http\Controllers\Admin\tempImagesController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -87,6 +88,8 @@ Route::group(['prefix' => 'account'],function(){
         Route::post('/remove-product-from-wishlist',[AuthController::class,'removeProductFromWishList'])->name('account.removeProductFromWishList');
         Route::get('/order-detail/{orderId}',[AuthController::class,'orderDetail'])->name('account.orderDetail');
         Route::get('/logout',[AuthController::class,'logout'])->name('account.logout');
+        Route::post('/download-invoice/{id}', [AuthController::class,'downloadInvoice'])->name('download.invoice');
+
         
     });
 });
@@ -198,6 +201,9 @@ Route::group(['prefix' => 'admin'],function(){
         Route::post('/order/change-status/{id}',[OrderController::class, 'changeOrderStatus'])->name('orders.changeOrderStatus');        
         Route::post('/order/send-email/{id}',[OrderController::class, 'sendInvoiceEmail'])->name('orders.sendInvoiceEmail');
 
+        //export orders
+        Route::get('/orders-exports/export', [OrderController::class, 'export'])->name('adminOrders.export');
+
         //users routes
         Route::get('/users',[UserController::class, 'index'])->name('users.index');
         Route::get('users/create',[UserController::class, 'create'])->name('users.create');
@@ -216,6 +222,14 @@ Route::group(['prefix' => 'admin'],function(){
         Route::get('/pages/{page}/edit',[PageController::class,'edit'])->name('pages.edit');
         Route::put('/pages/{page}/',[PageController::class,'update'])->name('pages.update');
         Route::delete('/pages/{page}/',[PageController::class,'destroy'])->name('pages.delete');
+
+        //system pages routes
+        Route::get('/system-pages',[SystemPageController::class, 'index'])->name('SystemPages.index');
+        Route::get('system-pages/create',[SystemPageController::class, 'create'])->name('SystemPages.create');
+        Route::post('/system-pages',[SystemPageController::class, 'store'])->name('SystemPages.store');
+        Route::get('/system-pages/{page}/edit',[SystemPageController::class,'edit'])->name('SystemPages.edit');
+        Route::put('/system-pages/{page}/',[SystemPageController::class,'update'])->name('SystemPages.update');
+        // Route::delete('/system-pages/{page}/',[SystemPageController::class,'destroy'])->name('SystemPages.delete');
 
         //order status
         Route::get('/order-status',[OrderStatusController::class, 'index'])->name('orderStatus.index');

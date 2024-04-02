@@ -6,14 +6,17 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Orders</h1>
+                <h1>System Pages</h1>
+            </div>
+            <div class="col-sm-6 text-right">
+                <a href="{{ route('SystemPages.create') }}" class="btn btn-primary">New Page</a>
             </div>
         </div>
     </div>
     <!-- /.container-fluid -->
     <!-- Additional buttons for bulk actions and export -->
-    <div class="card-footer clearfix">
-        <!-- <div class="float-left">
+    <!-- <div class="card-footer clearfix">
+        <div class="float-left">
             <button class="btn btn-danger" onclick="bulkDelete()">
                 <i class="fas fa-trash-alt"></i> Bulk Delete
             </button>
@@ -23,14 +26,14 @@
             <button class="btn btn-warning" onclick="bulkUnpublish()">
                 <i class="fas fa-times-circle"></i> Bulk Unpublish
             </button>
-        </div> -->
+        </div>
 
         <div class="float-right">
-            <a href="{{ route('adminOrders.export') }}" class="btn btn-info">
+            <a href="#" class="btn btn-info">
                 <i class="fas fa-download"></i> Export
             </a>
         </div>
-    </div>
+    </div> -->
     <!-- ... (Your existing code) ... -->
 </section>
 <!-- Main content -->
@@ -42,7 +45,7 @@
             <form action="" method="get">
                 <div class="card-header">
                     <div class="card-title">
-                        <button type="button" onclick="window.location.href='{{ route("orders.index") }}'" class="btn btn-default btn-sm">Reset</button>
+                        <button type="button" onclick="window.location.href='{{ route("SystemPages.index") }}'" class="btn btn-default btn-sm">Reset</button>
                     </div>
                     <div class="card-tools">
                         <div class="input-group input-group" style="width: 250px;">
@@ -63,47 +66,51 @@
                         <tr>
                             <!-- <th><input type="checkbox" name="" id="select_all_checkbox"></th> -->
                             <!-- <th width="60">ID</th> -->
-                            <th width="60" onclick="sortById('{{ request('order') === 'asc' ? 'desc' : 'asc' }}')" style="cursor: pointer;">ID<span class="sort-icon">
+                            <th onclick="sortById('{{ request('order') === 'asc' ? 'desc' : 'asc' }}')" style="cursor: pointer;">ID<span class="sort-icon">
                                     @if (request('sort') === 'id' && request('order') === 'asc')
                                     <i class="fas fa-arrow-up"></i>
                                     @elseif (request('sort') === 'id' && request('order') === 'desc')
                                     <i class="fas fa-arrow-down"></i>
                                     @endif
                                 </span></th>
-                            <th>Customer</th>
-                            <th>Email</th>
-                            <th>Phone</th>
-                            <th>Status</th>
-                            <th>Amount</th>
-                            <th>Date Purchased</th>
-                            
+                            <th>Name</th>
+                            <th>slug</th>
+                            <!-- <th>Status</th> -->
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @if ($orders->isNotEmpty())
-                        @foreach ($orders as $order )
+                        @if ($pages->isNotEmpty())
+                        @foreach ($pages as $page )
                         <tr>
-                            <!-- <td><input type="checkbox" name="ids" class="checkbox_ids" id="" value="{{ $order->id }}"></td> -->
-                            <td><a href="{{ route('orders.detail',$order->id) }}">{{ $order->id }}</td>
-                            <td>{{ $order->name }}</td>
-                            <td>{{ $order->email }}</td>
-                            <td>{{ $order->mobile }}</td>
-                            <td>
-                                @if ($order->status == 'pending')
-                                <span class="badge bg-danger">Pending</span>
-                                @elseif ($order->status == 'shipped')
-                                <span class="badge bg-info">Shipped</span>
-                                @elseif ($order->status == 'delivered')                                                    
-                                <span class="badge bg-success">Delivered</span>                                                
+                            <!-- <td><input type="checkbox" name="ids" class="checkbox_ids" id="" value="{{ $page->id }}"></td> -->
+                            <td>{{ $page->id }}</td>
+                            <td><a href="{{ route('SystemPages.edit', $page->id) }}">{{ $page->name }}</a></td>
+                            <td>{{ $page->slug }}</td>
+                            <!-- <td>
+                                @if ($page->status == 1)
+                                <svg class="text-success-500 h-6 w-6 text-success" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
                                 @else
-                                <span class="badge bg-danger">Cancelled</span>
+                                <svg class="text-danger h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
                                 @endif
-                            </td>
-                            <td>₹ {{ number_format($order->grand_total,2) }}</td>
+                            </td> -->
                             <td>
-                                {{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}
+                                <a href="{{ route('SystemPages.edit', $page->id) }}">
+                                    <svg class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>
+                                    </svg>
+                                </a>
+
+                                <!-- <a href="#" onclick="deletePage({{ $page->id }})" class="text-danger w-4 h-4 mr-1">
+                                    <svg wire:loading.remove.delay="" wire:target="" class="filament-link-icon w-4 h-4 mr-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                        <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </a> -->
                             </td>
-                           
                         </tr>
                         @endforeach
                         @else
@@ -118,7 +125,7 @@
 
             <div class="card-footer clearfix">
                 <div class="float-right">
-                    {{ $orders->links() }}
+                    {{ $pages->links() }}
                 </div>
                 <div class="form-inline">
                     <label for="perPage">Number of rows:</label>
@@ -131,7 +138,6 @@
                         <!-- Add more options as needed -->
                     </select>
                 </div>
-                
             </div>
 
         </div>
@@ -142,13 +148,40 @@
 @endsection
 
 @section('customJs')
-<SCript>
+<script>
     function changePerPage(value) {
-        window.location.href = "{{ route('orders.index') }}" + "?per_page=" + value;
+        window.location.href = "{{ route('SystemPages.index') }}" + "?per_page=" + value;
+    }
+    // Function to handle sorting by ID
+    function sortById(order) {
+        window.location.href = "{{ route('SystemPages.index') }}?sort=id&order=" + order;
     }
 
-    function sortById(order) {
-        window.location.href = "{{ route('orders.index') }}?sort=id&order=" + order;
+    function deletePage(id) {
+        var url = '';
+        var newUrl = url.replace("ID", id)
+
+        if (confirm("Are you sure you want to delete ")) {
+            $.ajax({
+                url: newUrl,
+                type: 'delete',
+                data: {},
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    if (response["status"]) {
+                        window.location.href = "{{ route('SystemPages.index') }}";
+                    } else {
+
+                    }
+                }
+            });
+        }
     }
-</SCript>
+</script>
+
+
+
 @endsection

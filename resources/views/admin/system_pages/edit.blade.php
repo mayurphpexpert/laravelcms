@@ -6,10 +6,10 @@
     <div class="container-fluid my-2">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Create Custom Page</h1>
+                <h1>Edit System Page</h1>
             </div>
             <div class="col-sm-6 text-right">
-                <a href="{{ route('pages.index') }}" class="btn btn-primary">Back</a>
+                <a href="{{ route('SystemPages.index') }}" class="btn btn-primary">Back</a>
             </div>
         </div>
     </div>
@@ -26,14 +26,14 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name">Name</label>
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                <input value="{{ $page->name }}" type="text" name="name" id="name" class="form-control" placeholder="Name">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="slug">Slug</label>
-                                <input type="text"  name="slug" id="slug" class="form-control" placeholder="Slug">
+                                <input value="{{ $page->slug }}" type="text"  name="slug" id="slug" class="form-control" placeholder="Slug">
                                 <p></p>
                             </div>
                         </div>
@@ -49,35 +49,36 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name">Meta Title</label>
-                                <input type="text" name="meta_title" id="meta_title" class="form-control" placeholder="Meta Title">
+                                <input type="text" value="{{ $page->meta_title }}" name="meta_title" id="meta_title" class="form-control" placeholder="Meta Title">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name">Meta Canonical Url</label>
-                                <input type="text" name="meta_canonical_url" id="meta_canonical_url" class="form-control" placeholder="Meta Canonical Url">
+                                <input type="text" value="{{ $page->meta_canonical_url }}" name="meta_canonical_url" id="meta_canonical_url" class="form-control" placeholder="Meta Canonical Url">
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="description">Meta Description</label>
-                                <textarea name="meta_description" id="meta_description" class="form-control" placeholder=" Meta Description"></textarea>
+                                <textarea name="meta_description" id="meta_description" class="form-control" placeholder=" Meta Description">{{ $page->meta_description }}</textarea>
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="description">Meta Keyword</label>
-                                <textarea name="meta_keyword" id="meta_keyword" class="form-control" placeholder=" Meta Keyword"></textarea>
+                                <textarea name="meta_keyword" id="meta_keyword" class="form-control" placeholder=" Meta Keyword">{{ $page->meta_keyword }}</textarea>
                                 <p></p>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="content">Content</label>
-                                <textarea name="content" id="content" class="summernotecat" placeholder="Content"></textarea>
+                                <textarea name="content" id="content" class="summernotecat" placeholder="Content">{!! $page->content !!}</textarea>
                                 <p></p>
                             </div>
                         </div>
@@ -85,8 +86,8 @@
                             <div class="mb-3">
                                 <label for="status">Status</label>
                                 <select name="status" id="status" class="form-control">
-                                    <option value="1">Active</option>
-                                    <option value="0">Inactive</option>
+                                    <option {{ ($page->status == 1) ? 'selected' : '' }} value="1">Active</option>
+                                    <option {{ ($page->status == 0) ? 'selected' : '' }} value="0">Inactive</option>
                                 </select>
                             </div>
                         </div>
@@ -94,8 +95,8 @@
                 </div>
             </div>
             <div class="pb-5 pt-3">
-                <button type="submit" class="btn btn-primary">Create</button>
-                <a href="{{ route('pages.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{{ route('SystemPages.index') }}" class="btn btn-outline-dark ml-3">Cancel</a>
             </div>
         </form>
     </div>
@@ -111,8 +112,8 @@
         var element = $(this);
         $("button[type=submit]").prop('disabled', true);
         $.ajax({
-            url: '{{ route("pages.store") }}',
-            type: 'post',
+            url: '{{ route("SystemPages.update", $page->id) }}',
+            type: 'put',
             data: element.serializeArray(),
             dataType: 'json',
             success: function(response) {
@@ -129,7 +130,7 @@
                     .siblings('p')
                     .removeClass('invalid-feedback').html("");
                     
-                    window.location.href = "{{ route('pages.index') }}";
+                    window.location.href = "{{ route('SystemPages.index') }}";
 
                 } else {
                     var errors = response['errors'];
@@ -158,7 +159,7 @@
             error: function(jqXHR, exception) {
                 console.log("Something went wrong");
             }
-        })
+        });
     });
 
     $("#name").change(function() {

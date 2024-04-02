@@ -81,13 +81,10 @@
                     </div>
 
                     <div class="card-footer p-3">
-
                         <!-- Heading -->
                         <h6 class="mb-7 h5 mt-4">Order Items ({{ $orderItemsCount }})</h6>
-
                         <!-- Divider -->
                         <hr class="my-3">
-
                         <!-- List group -->
                         <ul>
                             @foreach ($orderItems as $item)
@@ -118,12 +115,10 @@
                         </ul>
                     </div>
                 </div>
-
                 <div class="card card-lg mb-5 mt-3">
                     <div class="card-body">
                         <!-- Heading -->
                         <h6 class="mt-0 mb-3 h5">Order Total</h6>
-
                         <!-- List group -->
                         <ul>
                             <li class="list-group-item d-flex">
@@ -144,10 +139,15 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="card-body">
+                    <form action="{{ route('download.invoice', $order->id) }}" method="post">
+                        @csrf
+                        <button type="submit" class="btn btn-primary">Download Invoice</button>
+                    </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
 @endsection

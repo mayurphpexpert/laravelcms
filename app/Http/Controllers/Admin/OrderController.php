@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\OrdersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItems;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
 {
@@ -45,6 +47,10 @@ class OrderController extends Controller
         return view('admin.orders.list',$data);
     }
 
+    public function export()
+    {
+        return Excel::download(new OrdersExport, 'orders.csv');
+    }
 
     public function detail($orderId){
 
@@ -90,6 +96,8 @@ class OrderController extends Controller
             'message' => $message
         ]);
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
