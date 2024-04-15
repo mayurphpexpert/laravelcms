@@ -8,6 +8,7 @@ use App\Models\CustomerAddresses;
 use App\Models\DiscountCoupon;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\OrderStatus;
 use App\Models\Product;
 use App\Models\ShippingCharges;
 use Carbon\Carbon;
@@ -308,7 +309,7 @@ class CartController extends Controller
                 $grandTotal = ($subTotal-$discount)+$shipping;
             }
 
-            
+            $orderStatus = OrderStatus::first();
 
             
             $order = new Order();
@@ -320,6 +321,7 @@ class CartController extends Controller
             $order->coupon_cod = $promoCode;
             $order->payment_status = 'not paid';
             $order->status = 'pending';            
+            $order->order_status_id  = $orderStatus->id;            
             $order->user_id = $user->id;
             $order->first_name = $request->first_name;
             $order->last_name = $request->last_name;

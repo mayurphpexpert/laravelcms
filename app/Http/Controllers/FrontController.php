@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\ContactEmail;
 use App\Models\page;
 use App\Models\Product;
+use App\Models\SystemPage;
 use App\Models\User;
 use App\Models\Wishlist;
 use Illuminate\Http\Request;
@@ -24,7 +25,10 @@ class FrontController extends Controller
         $data['featuredProducts'] = $products;
         $latestProducts = Product::orderBy('id','DESC')->where('status',1)->take(8)->get();
         $data['latestProducts'] = $latestProducts;
-
+        // $page = SystemPage::where('status',1)->get();
+        $pages = SystemPage::where('status', 1)->get();
+        $data['pages'] = $pages;
+        
 
         return view('front.home',$data);
     }

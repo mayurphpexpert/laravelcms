@@ -71,7 +71,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <input type="text" name="apartment" id="apartment" class="form-control" placeholder="Apartment, suite, unit, etc. (optional)" value="{{ (!empty($customerAddress)) ? $customerAddress->apartment : '' }}">
-                                        
+
                                     </div>
                                 </div>
 
@@ -107,7 +107,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <textarea name="notes" id="notes" cols="30" rows="2" placeholder="Order Notes (optional)" class="form-control">{{ (!empty($customerAddress)) ? $customerAddress->notes : '' }}</textarea>
-                                        
+
                                     </div>
                                 </div>
 
@@ -151,13 +151,13 @@
                     <div class="input-group apply-coupan mt-4">
                         <input type="text" placeholder="Coupon Code" class="form-control" name="discount_code" id="discount_code">
                         <button class="btn btn-dark" type="button" id="apply-discount">Apply Coupon</button>
-                    </div> 
+                    </div>
 
                     <div id="discount-response-wrapper">
-                        @if (Session::has('code'))                        
-                        <div class="mt-4" id="discount-response"> 
-                            <strong>{{ Session::get('code')->code }}</strong> 
-                            <a href="" class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>                    
+                        @if (Session::has('code'))
+                        <div class="mt-4" id="discount-response">
+                            <strong>{{ Session::get('code')->code }}</strong>
+                            <a href="" class="btn btn-sm btn-danger" id="remove-discount"><i class="fa fa-times"></i></a>
                         </div>
                         @endif
                     </div>
@@ -221,136 +221,143 @@
         }
     });
 
-    $("#orderForm").submit(function(event){
+    $("#orderForm").submit(function(event) {
         event.preventDefault();
 
-        $('button[type="submit"]').prop('disabled',true);
+        $('button[type="submit"]').prop('disabled', true);
 
         $.ajax({
-           url: '{{ route("front.processCheckout") }}',
-           type: 'post',
-           data: $(this).serializeArray(),
-           dataType: 'json',
-           success: function(response){
+            url: '{{ route("front.processCheckout") }}',
+            type: 'post',
+            data: $(this).serializeArray(),
+            dataType: 'json',
+            success: function(response) {
                 var errors = response.errors;
-                $('button[type="submit"]').prop('disabled',false);
+                $('button[type="submit"]').prop('disabled', false);
 
 
-                if(response.status == false){
+                if (response.status == false) {
                     if (errors.first_name) {
                         $("#first_name").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.first_name);
                     } else {
-                        $("#first_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#first_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.last_name) {
                         $("#last_name").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.last_name);
                     } else {
-                        $("#last_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#last_name").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.email) {
                         $("#email").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.email);
                     } else {
-                        $("#email").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#email").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.country) {
                         $("#country").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.country);
                     } else {
-                        $("#country").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#country").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.address) {
                         $("#address").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.address);
                     } else {
-                        $("#address").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#address").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.city) {
                         $("#city").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.city);
                     } else {
-                        $("#city").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#city").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.state) {
                         $("#state").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.state);
                     } else {
-                        $("#state").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#state").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.zip) {
                         $("#zip").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.zip);
                     } else {
-                        $("#zip").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#zip").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
 
                     if (errors.mobile) {
                         $("#mobile").addClass('is-invalid').siblings("p").addClass('invalid-feedback').html(errors.mobile);
                     } else {
-                        $("#mobile").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');                    
+                        $("#mobile").removeClass('is-invalid').siblings("p").removeClass('invalid-feedback').html('');
                     }
-                }  else {
-                    window.location.href="{{ url('/thanks/') }}/"+response.orderId;
-                }             
-           }
+                } else {
+                    window.location.href = "{{ url('/thanks/') }}/" + response.orderId;
+                }
+            }
         });
     });
 
-    $("#country").change(function(){
+    $("#country").change(function() {
         $.ajax({
-           url: '{{ route("front.getOrderSummery") }}',
-           type: 'post',
-           data: {country_id: $(this).val()},
-           dataType: 'json',
-           success: function(response){
-            if(response.status == true){
-                $("#shippingAmount").html('₹'+response.shippingCharge);
-                $("#grandTotal").html('₹'+response.grandTotal);
+            url: '{{ route("front.getOrderSummery") }}',
+            type: 'post',
+            data: {
+                country_id: $(this).val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == true) {
+                    $("#shippingAmount").html('₹' + response.shippingCharge);
+                    $("#grandTotal").html('₹' + response.grandTotal);
+                }
             }
-           } 
         });
     });
 
-    $("#apply-discount").click(function(){
+    $("#apply-discount").click(function() {
         $.ajax({
-           url: '{{ route("front.applyDiscount") }}',
-           type: 'post',
-           data: {code: $("#discount_code").val(), country_id: $("#country").val()},
-           dataType: 'json',
-           success: function(response){
-            if(response.status == true){
-                $("#shippingAmount").html('₹'+response.shippingCharge);
-                $("#grandTotal").html('₹'+response.grandTotal);
-                $("#discount_value").html('₹'+response.discount);
-                $("#discount-response-wrapper").html(response.discountString);              
-            }else{
-                $("#discount-response-wrapper").html("<span class='text-danger'>"+response.message+"</span>");              
+            url: '{{ route("front.applyDiscount") }}',
+            type: 'post',
+            data: {
+                code: $("#discount_code").val(),
+                country_id: $("#country").val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == true) {
+                    $("#shippingAmount").html('₹' + response.shippingCharge);
+                    $("#grandTotal").html('₹' + response.grandTotal);
+                    $("#discount_value").html('₹' + response.discount);
+                    $("#discount-response-wrapper").html(response.discountString);
+                } else {
+                    $("#discount-response-wrapper").html("<span class='text-danger'>" + response.message + "</span>");
+                }
             }
-           } 
         });
     });
 
-    $('body').on('click',"#remove-discount",function(){
+    $('body').on('click', "#remove-discount", function() {
         $.ajax({
-           url: '{{ route("front.removeCoupon") }}',
-           type: 'post',
-           data: {country_id: $("#country").val()},
-           dataType: 'json',
-           success: function(response){
-            if(response.status == true){
-                $("#shippingAmount").html('₹'+response.shippingCharge);
-                $("#grandTotal").html('₹'+response.grandTotal);
-                $("#discount_value").html('₹'+response.discount);
-                $("#discount-response").html('');
-                $("#discount_code").val('');
+            url: '{{ route("front.removeCoupon") }}',
+            type: 'post',
+            data: {
+                country_id: $("#country").val()
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.status == true) {
+                    $("#shippingAmount").html('₹' + response.shippingCharge);
+                    $("#grandTotal").html('₹' + response.grandTotal);
+                    $("#discount_value").html('₹' + response.discount);
+                    $("#discount-response").html('');
+                    $("#discount_code").val('');
+                }
             }
-           } 
         });
     });
 
     // $("#remove-discount").click(function(){
-        
+
     // });
 </script>
 

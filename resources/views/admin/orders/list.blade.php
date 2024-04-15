@@ -89,14 +89,10 @@
                             <td>{{ $order->email }}</td>
                             <td>{{ $order->mobile }}</td>
                             <td>
-                                @if ($order->status == 'pending')
-                                <span class="badge bg-danger">Pending</span>
-                                @elseif ($order->status == 'shipped')
-                                <span class="badge bg-info">Shipped</span>
-                                @elseif ($order->status == 'delivered')                                                    
-                                <span class="badge bg-success">Delivered</span>                                                
-                                @else
-                                <span class="badge bg-danger">Cancelled</span>
+                                @if ($order->orderStatus)
+                                    <span class="badge bg-info {{ $order->orderStatus->slug }}">
+                                        {{ $order->orderStatus->name }}
+                                    </span>
                                 @endif
                             </td>
                             <td>₹ {{ number_format($order->grand_total,2) }}</td>

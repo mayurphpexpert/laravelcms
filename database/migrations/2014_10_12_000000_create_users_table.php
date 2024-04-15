@@ -22,13 +22,13 @@ return new class extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
-        DB::table('admins')->insert(
-            array(
-                'name' => 'Admin',
-                'password' => Hash::make('admin'),
-                'email' => 'admin@example.com'
-            )
-        );
+        // DB::table('admins')->insert(
+        //     array(
+        //         'name' => 'Admin',
+        //         'password' => Hash::make('admin'),
+        //         'email' => 'admin@example.com'
+        //     )
+        // );
     }
 
     /**

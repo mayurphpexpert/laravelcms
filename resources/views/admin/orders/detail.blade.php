@@ -51,14 +51,10 @@
                                 <b>Order ID:</b> {{ $order->id }}<br>
                                 <b>Total:</b> ₹{{ number_format($order->grand_total,2) }}<br>
                                 <b>Status:</b>
-                                    @if ($order->status == 'pending')
-                                    <span class="text-danger">Pending</span>
-                                    @elseif ($order->status == 'shipped')
-                                    <span class="text-info">Shipped</span>
-                                    @elseif ($order->status == 'delivered')                                                    
-                                    <span class="text-success">Delivered</span>                                                
-                                    @else
-                                    <span class="text-danger">Cancelled</span>
+                                    @if ($order->orderStatus)
+                                        <span class="text-info {{ $order->orderStatus->slug }}">
+                                            {{ $order->orderStatus->name }}
+                                        </span>
                                     @endif
                                 <br>
                             </div>
@@ -112,11 +108,18 @@
                         <div class="card-body">
                             <h2 class="h4 mb-3">Order Status</h2>
                             <div class="mb-3">
-                                <select name="status" id="status" class="form-control">
+                                <!-- <select name="status" id="status" class="form-control">
                                     <option value="pending" {{ ($order->status == 'pending') ? 'selected' : '' }}>Pending</option>
                                     <option value="shipped" {{ ($order->status == 'shipped') ? 'selected' : '' }}>Shipped</option>
                                     <option value="delivered" {{ ($order->status == 'delivered') ? 'selected' : '' }}>Delivered</option>
                                     <option value="cancelled" {{ ($order->status == 'cancelled') ? 'selected' : '' }}>Cancelled</option>
+                                </select> -->
+                                <select name="status" id="status" class="form-control">
+                                    @foreach($orderStatuses as $orderStatus)
+                                        <option value="{{ $orderStatus->id }}" {{ ($order->order_status_id == $orderStatus->id) ? 'selected' : '' }}>
+                                            {{ $orderStatus->name }}
+                                        </option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">

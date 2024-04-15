@@ -26,14 +26,14 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name">Name</label>
-                                <input value="{{ $page->name }}" type="text" name="name" id="name" class="form-control" placeholder="Name">
+                                <input value="{{ $page->name }}" type="text" name="name" id="name" class="form-control" placeholder="Name" readonly>
                                 <p></p>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="slug">Slug</label>
-                                <input value="{{ $page->slug }}" type="text"  name="slug" id="slug" class="form-control" placeholder="Slug">
+                                <input value="{{ $page->slug }}" type="text"  name="slug" id="slug" class="form-control" placeholder="Slug" readonly>
                                 <p></p>
                             </div>
                         </div>

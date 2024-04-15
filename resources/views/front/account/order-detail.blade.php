@@ -56,14 +56,10 @@
                                         <h6 class="heading-xxxs text-muted">Status:</h6>
                                         <!-- Text -->
                                         <p class="mb-0 fs-sm fw-bold">
-                                            @if ($order->status == 'pending')
-                                            <span class="badge bg-danger">Pending</span>
-                                            @elseif ($order->status == 'shipped')                                                    
-                                            <span class="badge bg-info">Shipped</span>
-                                            @elseif ($order->status == 'delivered')                                                    
-                                            <span class="badge bg-success">Delivered</span>                                                
-                                            @else
-                                            <span class="badge bg-danger">Cancelled</span>
+                                            @if ($order->orderStatus)
+                                                <span class="nav-link {{ $order->orderStatus->slug }}">
+                                                    {{ $order->orderStatus->name }}
+                                                </span>
                                             @endif
                                         </p>
                                     </div>

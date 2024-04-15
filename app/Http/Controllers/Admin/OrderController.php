@@ -6,6 +6,7 @@ use App\Exports\OrdersExport;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItems;
+use App\Models\OrderStatus;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -61,16 +62,24 @@ class OrderController extends Controller
                     
         $orderItems = OrderItems::where('order_id',$orderId)->get();
 
+        $orderStatuses = OrderStatus::all(); // Fetch all order statuses
+
         return view('admin.orders.detail',[
             'order' => $order,
-            'orderItems' => $orderItems
+            'orderItems' => $orderItems,
+            'orderStatuses' => $orderStatuses, // Pass the order statuses to the view
         ]);
+        
 
     }
 
     public function changeOrderStatus(Request $request, $orderId){
+        // $order = Order::find($orderId);
+        // $order->status = $request->status;
+        // $order->shipped_date = $request->shipped_date;
+        // $order->save();
         $order = Order::find($orderId);
-        $order->status = $request->status;
+        $order->order_status_id = $request->status;
         $order->shipped_date = $request->shipped_date;
         $order->save();
 

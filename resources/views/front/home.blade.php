@@ -96,6 +96,8 @@
         </div>
     </div>
 </section>
+@foreach ($pages as $page)
+@if ($page->slug == 'categories')
 <section class="section-3">
     <div class="container">
         <div class="section-title">
@@ -125,7 +127,9 @@
         </div>
     </div>
 </section>
+@endif
 
+@if ($page->slug == 'featured-products')
 <section class="section-4 pt-5">
     <div class="container">
         <div class="section-title">
@@ -169,7 +173,7 @@
                         </div>
                     </div>
                     <div class="card-body text-center mt-3">
-                        <a class="h6 link" href="product.php">{{ $product->title }}</a>
+                        <a class="h6 link" href="{{ route('front.product',$product->slug) }}">{{ $product->title }}</a>
                         <div class="price mt-2">
                             <span class="h5"><strong>₹{{ $product->price }}</strong></span>
                             @if ($product->compare_price > 0)
@@ -185,7 +189,8 @@
         </div>
     </div>
 </section>
-
+@endif
+@if ($page->slug == 'latest-produsts')
 <section class="section-4 pt-5">
     <div class="container">
         <div class="section-title">
@@ -245,5 +250,6 @@
         </div>
     </div>
 </section>
-
+@endif
+@endforeach
 @endsection

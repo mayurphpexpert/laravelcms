@@ -43,15 +43,11 @@
                                             </td>
                                             <td>{{ \Carbon\Carbon::parse($order->created_at)->format('d M, Y') }}</td>
                                             <td>
-                                                @if ($order->status == 'pending')
-                                                <span class="badge bg-danger">Pending</span>
-                                                @elseif ($order->status == 'shipped')                                                    
-                                                <span class="badge bg-info">Shipped</span>
-                                                @elseif ($order->status == 'delivered')                                                    
-                                                <span class="badge bg-success">Delivered</span>                                                
-                                                @else
-                                                <span class="badge bg-danger">Cancelled</span>                                                
-                                                @endif
+                                            @if ($order->orderStatus)
+                                                <span class="nav-link {{ $order->orderStatus->slug }}">
+                                                    {{ $order->orderStatus->name }}
+                                                </span>
+                                            @endif
 
                                             </td>
                                             <td>₹{{ number_format($order->grand_total) }}</td>
