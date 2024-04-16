@@ -93,9 +93,9 @@
                                                $productImage = getProductImage($item->product_id);
                                             @endphp
                                             @if (!empty($productImage->image))
-                                            <img src="{{ asset('/uploads/product/small/'.$productImage->image) }}" class="img-fluid" />
+                                            <img src="{{ asset('/public/uploads/product/small/'.$productImage->image) }}" class="img-fluid" />
                                             @else
-                                            <img src="{{ asset('admin-assets/img/default-150x150.png')}}" class="img-fluid" />
+                                            <img src="{{ asset('public/admin-assets/img/default-150x150.png')}}" class="img-fluid" />
                                             @endif
                                         </div>
                                         <div class="col">

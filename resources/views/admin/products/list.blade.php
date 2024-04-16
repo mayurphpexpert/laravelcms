@@ -106,9 +106,9 @@
                                 <td>{{ $product->id }}</td>
                                 <td>
                                     @if (!empty($productImage->image))
-                                    <img src="{{ asset('/uploads/product/small/'.$productImage->image) }}" class="img-thumbnail" width="50" />
+                                    <img src="{{ asset('/public/uploads/product/small/'.$productImage->image) }}" class="img-thumbnail" width="50" />
                                     @else
-                                    <img src="{{ asset('admin-assets/img/default-150x150.png')}}" class="img-thumbnail" width="50" alt="" />
+                                    <img src="{{ asset('public/admin-assets/img/default-150x150.png')}}" class="img-thumbnail" width="50" alt="" />
                                     @endif
                                     
                                 </td>

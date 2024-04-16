@@ -94,7 +94,7 @@
                             </div>
                             @if (!empty($brand->image))
                             <div>
-                                <img width="250" src="{{ asset('uploads/brand/thumb/'.$brand->image) }}" alt="">
+                                <img width="250" src="{{ asset('public/uploads/brand/thumb/'.$brand->image) }}" alt="">
                             </div>
                             @endif                                            
                         </div>

@@ -119,7 +119,7 @@
                                         <div class="col-md-6">
                                         @if (!empty($category->image))
                                             <div>
-                                                <img width="250" src="{{ asset('uploads/category/thumb/'.$category->image) }}" alt="">
+                                                <img width="250" src="{{ asset('public/uploads/category/thumb/'.$category->image) }}" alt="">
                                             </div>
                                         @endif
                                         </div>

@@ -49,9 +49,9 @@
                                             <div class="d-flex align-items-center ">
                                                 <!-- <img src="images/product-1.jpg" width="" height=""> -->
                                                 @if (!empty($item->options->productImage->image))
-                                                <img src="{{ asset('/uploads/product/small/'.$item->options->productImage->image) }}" />
+                                                <img src="{{ asset('/public/uploads/product/small/'.$item->options->productImage->image) }}" />
                                                 @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png')}}" class="card-img-top" />
+                                                <img src="{{ asset('public/admin-assets/img/default-150x150.png')}}" class="card-img-top" />
                                                 @endif
 
                                                 <h2>{{ $item->name }}</h2>

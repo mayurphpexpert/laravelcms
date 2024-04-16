@@ -76,7 +76,7 @@
                             <div class="col-md-3" id="image-row-{{ $image->id }}">
                                 <div class="card" >
                                     <input type="hidden" name="image_array[]" value="{{ $image->id }}">
-                                    <img class="card-img-top" src="{{ asset('uploads/product/small/'.$image->image) }}" alt="...">
+                                    <img class="card-img-top" src="{{ asset('public/uploads/product/small/'.$image->image) }}" alt="...">
                                     <div class="card-body">
                                         <a href="javascript:void(0)" onclick="deleteImage({{ $image->id }})" class="btn btn-danger">Delete</a>
                                     </div>

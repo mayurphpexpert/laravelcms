@@ -110,11 +110,11 @@
                                                 <img class="card-img-top" src="images/product-1.jpg" alt="">
                                             </a> -->
                                             <a href="{{ route('front.product',$product->slug) }}" class="product-img">
-                                                <!-- <img class="card-img-top" src="{{asset('front-assets/images/product-1.jpg')}}" alt=""> -->
+                                                <!-- <img class="card-img-top" src="{{asset('public/front-assets/images/product-1.jpg')}}" alt=""> -->
                                                 @if (!empty($productImage->image))
-                                                <img src="{{ asset('/uploads/product/small/'.$productImage->image) }}" class="card-img-top" />
+                                                <img src="{{ asset('/public/uploads/product/small/'.$productImage->image) }}" class="card-img-top" />
                                                 @else
-                                                <img src="{{ asset('admin-assets/img/default-150x150.png')}}" class="card-img-top" />
+                                                <img src="{{ asset('public/admin-assets/img/default-150x150.png')}}" class="card-img-top" />
                                                 @endif
                                             </a>
                                             <a onclick="addToWishList({{ $product->id }})" class="whishlist" href="javascript:void(0);"><i class="far fa-heart"></i></a>

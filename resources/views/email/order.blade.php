@@ -37,7 +37,7 @@
 <body>
     <!-- Logo -->
     <div style="text-align: center; margin-bottom: 20px;">
-        <img src="{{ asset('front-assets/images/logo.png') }}" alt="Logo" style="max-width: 200px;">
+        <img src="{{ asset('public/front-assets/images/logo.png') }}" alt="Logo" style="max-width: 200px;">
     </div>
 
     @if ($mailData['userType'] == 'customer')

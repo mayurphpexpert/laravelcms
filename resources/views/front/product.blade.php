@@ -24,7 +24,7 @@
                         @if ($product->product_images)
                         @foreach ($product->product_images as $key => $productImage)
                         <div class="carousel-item {{ ($key == 0) ? 'active' : ''}}">
-                            <img class="w-100 h-100" src="{{ asset('uploads/product/large/'.$productImage->image) }}" alt="Image">
+                            <img class="w-100 h-100" src="{{ asset('public/uploads/product/large/'.$productImage->image) }}" alt="Image">
                         </div>
                         @endforeach
                         @endif
@@ -234,9 +234,9 @@
                     <div class="product-image position-relative">
                         <a href="{{ route('front.product',$relProduct->slug) }}" class="product-img">
                             @if (!empty($productImage->image))
-                            <img src="{{ asset('/uploads/product/small/'.$productImage->image) }}" class="card-img-top" />
+                            <img src="{{ asset('/public/uploads/product/small/'.$productImage->image) }}" class="card-img-top" />
                             @else
-                            <img src="{{ asset('admin-assets/img/default-150x150.png')}}" class="card-img-top" />
+                            <img src="{{ asset('public/admin-assets/img/default-150x150.png')}}" class="card-img-top" />
                             @endif
                         </a>
                         <a class="whishlist" href="222"><i class="far fa-heart"></i></a>
