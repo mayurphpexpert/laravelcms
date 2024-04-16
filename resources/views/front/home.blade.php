@@ -18,7 +18,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Kids Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('shop.home')}}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -34,7 +34,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Womens Fashion</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('shop.home')}}">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                     <div class="p-3">
                         <h1 class="display-4 text-white mb-3">Shop Online at Flat 70% off on Branded Clothes</h1>
                         <p class="mx-md-5 px-5">Lorem rebum magna amet lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
-                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="#">Shop Now</a>
+                        <a class="btn btn-outline-light py-2 px-4 mt-3" href="{{ route('shop.home')}}">Shop Now</a>
                     </div>
                 </div>
             </div>
